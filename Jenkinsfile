@@ -1,5 +1,4 @@
 pipeline {
- 
     agent any
  
     tools {
@@ -8,8 +7,6 @@ pipeline {
     }
  
     stages {
-        // ✂️ 'Git Checkout' stage has been removed from here!
- 
         stage('Clean Project') {
             steps {
                 bat 'mvn clean'
@@ -18,19 +15,19 @@ pipeline {
  
         stage('Run Tests') {
             steps {
-                // catchError flags the build as unstable/failed but lets the pipeline keep moving forward
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                     bat 'mvn test'
                 }
             }
+        }
  
-     stage('Generate Reports') {
+        stage('Generate Reports') {
             steps {
                 publishHTML([
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'test-output', // 👈 Change this to match your Eclipse folder
+                    reportDir: 'test-output',
                     reportFiles: 'ExtentReport.html',
                     reportName: 'Extent Report'
                 ])
@@ -43,7 +40,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'target', // 👈 Change this to match your exact folder path
+                    reportDir: 'target',
                     reportFiles: 'cucumber.html',
                     reportName: 'Amazon Cucumber Report'
                 ])
@@ -53,7 +50,6 @@ pipeline {
  
     post {
         always {
-            // Updated to look inside your actual project output folders
             archiveArtifacts artifacts: 'test-output/ExtentReport.html, target/cucumber.html', allowEmptyArchive: true
         }
  
