@@ -22,13 +22,13 @@ pipeline {
             }
         }
  
-        stage('Generate Reports') {
+     stage('Generate Reports') {
             steps {
                 publishHTML([
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'reports',
+                    reportDir: 'test-output', // 👈 Change this to match your Eclipse folder
                     reportFiles: 'ExtentReport.html',
                     reportName: 'Extent Report'
                 ])
@@ -41,9 +41,9 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'target/cucumber-reports',
+                    reportDir: 'target', // 👈 Change this to match your exact folder path
                     reportFiles: 'cucumber.html',
-                    reportName: 'Flipkart Cucumber Report'
+                    reportName: 'Amazon Cucumber Report'
                 ])
             }
         }
