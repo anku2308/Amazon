@@ -18,9 +18,11 @@ pipeline {
  
         stage('Run Tests') {
             steps {
-                bat 'mvn test'
+                // catchError flags the build as unstable/failed but lets the pipeline keep moving forward
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    bat 'mvn test'
+                }
             }
-        }
  
      stage('Generate Reports') {
             steps {

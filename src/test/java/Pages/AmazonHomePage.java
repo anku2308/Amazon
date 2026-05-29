@@ -1,9 +1,14 @@
 package Pages;
 
+import java.time.Duration;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import reusablefunctions.SeleniumUtility;
 
@@ -33,6 +38,10 @@ public class AmazonHomePage {
 
     public void searchProduct(String product) {
 
+    	// Example using Explicit Wait in your Page Object
+    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    	WebElement searchBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("twotabsearchtextbox")));
+    	searchBox.sendKeys("headphones");
         utility.enterValue(searchBox, product);
 
         utility.clickElement(searchButton);
