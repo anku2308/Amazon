@@ -51,7 +51,8 @@ pipeline {
  
     post {
         always {
-            archiveArtifacts artifacts: 'reports/*, target/cucumber-reports/*'
+            // Updated to look inside your actual project output folders
+            archiveArtifacts artifacts: 'test-output/ExtentReport.html, target/cucumber.html', allowEmptyArchive: true
         }
  
         success {
