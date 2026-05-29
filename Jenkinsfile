@@ -37,12 +37,12 @@ pipeline {
         stage('Publish Cucumber Report') {
             steps {
                 publishHTML([
-                    allowMissing: false,
+                  allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
                     reportDir: 'target',
-                    reportFiles: 'cucumber.html',
-                    reportName: 'Amazon Cucumber Report'
+                    reportFiles: 'cucumber-report.html', // 👈 Fixed here (added "-report")
+                    reportName: 'Amazon Cucumber Report
                 ])
             }
         }
