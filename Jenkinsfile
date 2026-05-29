@@ -8,12 +8,7 @@ pipeline {
     }
  
     stages {
- 
-        stage('Git Checkout') {
-            steps {
-                git 'https://github.com/anku2308/Amazon.git'
-            }
-        }
+        // ✂️ 'Git Checkout' stage has been removed from here!
  
         stage('Clean Project') {
             steps {
@@ -40,7 +35,6 @@ pipeline {
             }
         }
 
-        // --- Your New Stage Added Here ---
         stage('Publish Cucumber Report') {
             steps {
                 publishHTML([
@@ -49,7 +43,7 @@ pipeline {
                     keepAll: true,
                     reportDir: 'target/cucumber-reports',
                     reportFiles: 'cucumber.html',
-                    reportName: 'Amazon Cucumber Report'
+                    reportName: 'Flipkart Cucumber Report'
                 ])
             }
         }
@@ -57,7 +51,6 @@ pipeline {
  
     post {
         always {
-            // Updated to archive both your Extent reports folder and Cucumber reports folder
             archiveArtifacts artifacts: 'reports/*, target/cucumber-reports/*'
         }
  
