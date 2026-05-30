@@ -37,14 +37,17 @@ public class SeleniumUtility {
     }
 
     public void takeScreenshot(String fileName) throws IOException {
-
         TakesScreenshot ts = (TakesScreenshot) driver;
-
         File src = ts.getScreenshotAs(OutputType.FILE);
-
-        File dest = new File("./Screenshots/" + fileName + "amazon.png");
-
-    
-		FileHandler.copy(src, dest);
+        
+        // Create the directory object
+        File folder = new File("./Screenshots");
+        if (!folder.exists()) {
+            folder.mkdirs(); // This creates the Screenshots folder automatically in Linux/Docker
+        }
+        
+        File dest = new File(folder, fileName + "amazon.png");
+        FileHandler.copy(src, dest);
     }
-}
+    }
+

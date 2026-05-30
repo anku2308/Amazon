@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  selenium-chrome:
+    image: selenium/standalone-chrome:latest
+    container_name: selenium-chrome
+    ports:
+      - "4444:4444"
+    shm_size: "2gb"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:4444/wd/hub/status | grep -q '\"ready\": true'"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  amazon-tests:
+    build: .
+    container_name: amazon-tests
+    depends_on:
+      selenium-chrome:
+        condition: service_healthy
+    volumes:
+      - ./target:/app/target            # Syncs Maven/Cucumber HTML reports back to Windows
+      - ./Screenshots:/app/Screenshots  # Syncs screenshots taken by Selenium back to Windows
